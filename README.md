@@ -13,6 +13,18 @@ Created by suadatbiniqbal
 pkg update && pkg install -y tor python git && git clone https://github.com/suadatbiniqbal/VeilNode.git && cd VeilNode && pip install stem && mkdir -p $PREFIX/etc/tor && echo -e "ControlPort 9051\nCookieAuthentication 0" > $PREFIX/etc/tor/torrc && tor & sleep 15 && pip install -e . && veilnode --sample
 ```
 
+
+## Method 2 
+# Download
+curl -O https://raw.githubusercontent.com/suadatbiniqbal/VeilNode/main/install_termux.sh
+
+# Make executable
+chmod +x install_termux.sh
+
+# Run
+./install_termux.sh
+
+
 ### Linux (Ubuntu/Debian)
 ```bash
 sudo apt update && sudo apt install -y tor git python3-pip && sudo systemctl start tor && git clone https://github.com/suadatbiniqbal/VeilNode.git && cd VeilNode && sudo bash -c 'echo -e "ControlPort 9051\nCookieAuthentication 0" >> /etc/tor/torrc' && sudo systemctl restart tor && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && pip install -e . && veilnode --sample
