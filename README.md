@@ -1,8 +1,8 @@
 # VeilNode
 
-VeilNode is a lightweight Python tool that allows you to host static
-websites as Tor hidden services with minimal configuration. It works on
-Linux, macOS, Windows, and Termux (Android).
+VeilNode is a lightweight Python tool for hosting static websites as Tor
+hidden services with minimal configuration. It works on Linux, macOS,
+Windows, and Termux (Android).
 
 Created by suadatbiniqbal.
 
@@ -10,17 +10,17 @@ Created by suadatbiniqbal.
 
 ## Overview
 
-VeilNode simplifies the process of hosting static content on the Tor
-network. It automatically handles Tor control communication and hidden
-service creation, allowing you to serve a local directory as a .onion
-site with a single command.
+VeilNode simplifies the process of publishing static content on the Tor
+network. It automatically communicates with Tor's control port, creates
+a hidden service, and serves a local directory as a .onion website.
 
-It is designed for developers, privacy enthusiasts, and researchers who
-want a simple way to publish static content over Tor.
+It is designed for developers, privacy researchers, and users who want a
+simple, clean way to deploy static sites over Tor without complex
+configuration.
 
 ------------------------------------------------------------------------
 
-## Quick Install and Run
+## One-Line Install and Run
 
 ### Termux (Android)
 
@@ -31,7 +31,29 @@ CookieAuthentication 0" > $PREFIX/etc/tor/torrc && tor & sleep 15 && pip install
 
 ------------------------------------------------------------------------
 
-### Linux (Ubuntu/Debian)
+## Alternative Termux Installation (.sh Script Method)
+
+Download the installer:
+
+``` bash
+curl -O https://raw.githubusercontent.com/suadatbiniqbal/VeilNode/main/install_termux.sh
+```
+
+Make it executable:
+
+``` bash
+chmod +x install_termux.sh
+```
+
+Run the installer:
+
+``` bash
+./install_termux.sh
+```
+
+------------------------------------------------------------------------
+
+## Linux (Ubuntu/Debian)
 
 ``` bash
 sudo apt update
@@ -55,7 +77,7 @@ veilnode --sample
 
 ------------------------------------------------------------------------
 
-### macOS
+## macOS
 
 ``` bash
 brew install tor git
@@ -76,7 +98,7 @@ veilnode --sample
 
 ------------------------------------------------------------------------
 
-### Windows
+## Windows
 
 1.  Install Python 3.
 2.  Install Tor Browser from the official Tor Project website.
@@ -93,6 +115,82 @@ veilnode --sample
 
 ------------------------------------------------------------------------
 
+## Step-by-Step Installation
+
+### 1. Clone Repository
+
+``` bash
+git clone https://github.com/suadatbiniqbal/VeilNode.git
+cd VeilNode
+```
+
+Or download the ZIP archive and extract it.
+
+------------------------------------------------------------------------
+
+### 2. Install Tor
+
+Termux:
+
+``` bash
+pkg update
+pkg install tor python git
+```
+
+Linux:
+
+``` bash
+sudo apt update
+sudo apt install tor python3-pip
+```
+
+macOS:
+
+``` bash
+brew install tor
+```
+
+Windows: Install Tor Browser and keep it running.
+
+------------------------------------------------------------------------
+
+### 3. Configure Tor
+
+Add the following lines to your torrc file:
+
+    ControlPort 9051
+    CookieAuthentication 0
+
+Restart Tor after saving the configuration.
+
+------------------------------------------------------------------------
+
+### 4. Install VeilNode
+
+``` bash
+pip install -r requirements.txt
+pip install -e .
+```
+
+Recommended (Linux/macOS):
+
+``` bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pip install -e .
+```
+
+------------------------------------------------------------------------
+
+### 5. Run VeilNode
+
+``` bash
+veilnode --sample
+```
+
+------------------------------------------------------------------------
+
 ## Usage
 
 ``` bash
@@ -102,7 +200,44 @@ veilnode /path/to/site         # Host custom directory
 veilnode --sample -p 9000      # Custom local port
 veilnode --sample -t 9151      # Custom Tor control port
 veilnode ~/my-site -p 8888     # Custom site with custom port
-veilnode --help                # Show help menu
+veilnode build/                # Host React/Vue build directory
+veilnode --help                # Display help information
+```
+
+To host multiple sites, run separate instances in different terminals
+using different ports.
+
+------------------------------------------------------------------------
+
+## Hosting Your Own Website
+
+### Single Page Example
+
+``` bash
+mkdir ~/my-onion-site
+cd ~/my-onion-site
+veilnode .
+```
+
+------------------------------------------------------------------------
+
+### Multi-Page Website
+
+Create a structured directory with HTML, CSS, and assets, then run:
+
+``` bash
+veilnode .
+```
+
+------------------------------------------------------------------------
+
+### Hosting an Existing Project
+
+For frameworks such as React:
+
+``` bash
+npm run build
+veilnode build/
 ```
 
 ------------------------------------------------------------------------
@@ -138,14 +273,23 @@ veilnode --help                # Show help menu
 
 ------------------------------------------------------------------------
 
+## Security Notes
+
+-   Avoid publishing personal information.
+-   Keep VeilNode running to maintain your .onion address.
+-   Use Tor Browser to access hidden services.
+-   Test locally before sharing links.
+
+------------------------------------------------------------------------
+
 ## License
 
-MIT License
+This project is licensed under the MIT License.
 
 ------------------------------------------------------------------------
 
 ## Disclaimer
 
-This project is intended for educational and legitimate purposes only.
-Users are responsible for complying with all applicable laws and
-regulations.
+VeilNode is provided for educational and legitimate use only. Users are
+solely responsible for ensuring compliance with applicable laws and
+regulations in their jurisdiction.
